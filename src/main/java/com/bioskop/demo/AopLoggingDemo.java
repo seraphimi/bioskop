@@ -4,13 +4,16 @@ import com.bioskop.service.MovieService;
 import com.bioskop.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
  * Demo application that showcases AOP logging functionality.
  * Run this to see the @After pointcuts in action.
+ * Disabled during tests.
  */
 @Component
+@ConditionalOnProperty(name = "bioskop.demo.enabled", havingValue = "true", matchIfMissing = true)
 public class AopLoggingDemo implements CommandLineRunner {
 
     @Autowired

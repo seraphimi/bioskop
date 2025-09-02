@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @SpringBootTest
 @TestPropertySource(properties = {
-    "logging.level.com.bioskop.aspect=DEBUG"
+    "logging.level.com.bioskop.aspect=DEBUG",
+    "bioskop.demo.enabled=false" // Disable demo during tests
 })
 public class AopLoggingTest {
 
@@ -28,8 +29,8 @@ public class AopLoggingTest {
     @Test
     public void testMovieServiceLogging() {
         // Test successful method execution - should trigger @AfterReturning
-        String result = movieService.addMovie("The Matrix");
-        assertEquals("Movie added: The Matrix", result);
+        String result = movieService.addMovie("Test Movie");
+        assertEquals("Movie added: Test Movie", result);
         
         // Test method that returns a value - should trigger @AfterReturning
         int count = movieService.getMovieCount();
@@ -44,12 +45,12 @@ public class AopLoggingTest {
     @Test
     public void testTicketServiceLogging() {
         // Test successful ticket booking - should trigger @AfterReturning
-        String result = ticketService.bookTicket("John Doe", 2);
-        assertTrue(result.contains("Booked 2 tickets for John Doe"));
+        String result = ticketService.bookTicket("Test User", 2);
+        assertTrue(result.contains("Booked 2 tickets for Test User"));
         
         // Test method that returns a value - should trigger @AfterReturning
         int availableSeats = ticketService.getAvailableSeats();
-        assertEquals(98, availableSeats);
+        assertEquals(98, availableSeats); // 100 - 2 = 98
         
         // Test method that throws an exception - should trigger @AfterThrowing
         assertThrows(RuntimeException.class, () -> {

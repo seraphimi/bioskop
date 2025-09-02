@@ -33,6 +33,7 @@ build/
 
 ### Reviews directory ###
 reviews/
+test-reviews/
 
 ### Database ###
 *.db

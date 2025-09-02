@@ -1,13 +1,21 @@
 package com.bioskop.aspect;
 
 import org.aspectj.lang.JoinPoint;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Aspect;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+
 
 @Aspect
 @Component
@@ -15,6 +23,7 @@ public class LoggingAspect {
     
     private static final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
     
+
     // Pointcut for all service methods
     @Pointcut("execution(* com.bioskop.service.*.*(..))")
     public void serviceLayer() {}
@@ -45,15 +54,6 @@ public class LoggingAspect {
         logger.info("AFTER SERVICE: {}.{} - Metoda završena", className, methodName);
     }
     
-    @Before("controllerLayer()")
-    public void logBeforeControllerMethod(JoinPoint joinPoint) {
-        String methodName = joinPoint.getSignature().getName();
-        String className = joinPoint.getTarget().getClass().getSimpleName();
-        Object[] args = joinPoint.getArgs();
-        
-        logger.info("BEFORE CONTROLLER: {}.{} - HTTP zahtev sa argumentima: {}", 
-                   className, methodName, Arrays.toString(args));
-    }
     
     @After("controllerLayer()")
     public void logAfterControllerMethod(JoinPoint joinPoint) {
@@ -106,5 +106,44 @@ public class LoggingAspect {
         
         logger.error("EXCEPTION: {}.{} - Izuzetak: {} - Poruka: {}", 
                     className, methodName, exception.getClass().getSimpleName(), exception.getMessage());
+=======
+    /**
+     * Logs after any method execution in service packages (successful or failed)
+     */
+    @After("execution(* com.bioskop.service.*.*(..))")
+    public void logAfter(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        logger.info("Method execution completed: {}.{}", className, methodName);
+    }
+    
+    /**
+     * Logs after successful method execution with return value
+     */
+    @AfterReturning(pointcut = "execution(* com.bioskop.service.*.*(..))", returning = "result")
+    public void logAfterReturning(JoinPoint joinPoint, Object result) {
+        String methodName = joinPoint.getSignature().getName();
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        logger.info("Method executed successfully: {}.{}, returned: {}", className, methodName, result);
+    }
+    
+    /**
+     * Logs after method execution that throws an exception
+     */
+    @AfterThrowing(pointcut = "execution(* com.bioskop.service.*.*(..))", throwing = "exception")
+    public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
+        String methodName = joinPoint.getSignature().getName();
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        logger.error("Method threw exception: {}.{}, exception: {}", className, methodName, exception.getMessage());
+    }
+    
+    /**
+     * Logs after any controller method execution
+     */
+    @After("execution(* com.bioskop.controller.*.*(..))")
+    public void logControllerAfter(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        String className = joinPoint.getTarget().getClass().getSimpleName();
+        logger.info("Controller method execution completed: {}.{}", className, methodName);
     }
 }

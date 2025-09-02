@@ -8,6 +8,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @EnableAspectJAutoProxy
 public class BioskopApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(BioskopApplication.class, args);
     }

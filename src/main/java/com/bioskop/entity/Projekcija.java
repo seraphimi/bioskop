@@ -1,15 +1,17 @@
 package com.bioskop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name = "projekcije")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Projekcija {
     
     @Id

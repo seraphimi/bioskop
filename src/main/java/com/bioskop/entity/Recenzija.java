@@ -1,5 +1,6 @@
 package com.bioskop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.DecimalMin;
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "recenzije")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Recenzija {
     
     @Id

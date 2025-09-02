@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/projekcije")
-@CrossOrigin(origins = "*")
 public class ProjekcijaController {
     
     @Autowired

@@ -99,14 +99,7 @@ public class LoggingAspect {
         }
     }
     
-    @AfterThrowing(pointcut = "serviceLayer() || controllerLayer()", throwing = "exception")
-    public void logAfterThrowing(JoinPoint joinPoint, Throwable exception) {
-        String methodName = joinPoint.getSignature().getName();
-        String className = joinPoint.getTarget().getClass().getSimpleName();
-        
-        logger.error("EXCEPTION: {}.{} - Izuzetak: {} - Poruka: {}", 
-                    className, methodName, exception.getClass().getSimpleName(), exception.getMessage());
-=======
+
     /**
      * Logs after any method execution in service packages (successful or failed)
      */

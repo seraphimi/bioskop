@@ -1,6 +1,5 @@
 package com.bioskop;
 
-import com.bioskop.service.MovieService;
 import com.bioskop.service.TicketService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
